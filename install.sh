@@ -1,5 +1,5 @@
 term_width=$(tput cols)
-total_steps=9
+total_steps=11
 current_step=1
 step_width=$((term_width / total_steps))
 fill_char="#"
@@ -30,21 +30,17 @@ function run_command() {
 }
 
 run_command "pacman -S --needed git base-devel &>/dev/null && git clone https://aur.archlinux.org/yay.git &>/dev/null && cd yay && makepkg -si &>/dev/null" "Installing YAY"
-run_command "yay -S leftwm wezterm eww neofetch rofi ttf-joypixels" "Installing AUR Package ttf-joypixels"
+run_command "yay -S leftwm wezterm eww neofetch rofi ttf-joypixels picom-ibhagwan-git" "Installing AUR Package ttf-joypixels"
 run_command "curl -LJO https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/VictorMono.zip &> /dev/null && unzip VictorMono.zip -d ~/.local/share/fonts &> /dev/null && fc-cache -f" "Installing VictorMono"
 run_command "git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim" "Cloning Packer"
-run_command "mkdir .config" "Creating .config directory"
-run_command "git clone --depth 1 https://github.com/adamkali/LuaNeovimConfig.git ~/.config/nvim" "Cloning LuaNeovimConfig"
-run_command "git clone --depth 1 https://github.com/adamkali/WeztermConfig.git ~/.config/wezterm" "Cloning WeztermConfig"
+run_command "cp ~/arch-bootstrap/config/ ~/.config/" "Creating .config directory"
 run_command "git clone --depth 1 https://github.com/adamkali/FishConfig.git &>/dev/null && cp ./FishConfig/config.fish ~/.config/fish" "Cloning FishConfig"
-run_command "git clone --depth 1 https://github.com/adamkali/LeftWmConfig.git ~/.config/leftwm" "Cloning LeftWmConfig"
-run_command "git clone --depth 1 https://github.com/adamkali/RofiConfig.git ~/.config/rofi" "Cloning RofiConfig"
-run_command "git clone --depth 1 https://github.com/adamkali/EwwConfig.git ~/.config/eww" "Cloning EwwConfig"
 run_command "pip install pyright" "Installing pyright"
 run_command "go install golang.org/x/tools/gopls@latest" "Installing golang-lsp"
-run_command "rustup component add rust-src" "Installing rust-src"
+run_command "rustup component add rust-analyzer" "Installing rust-analyzer"
+run_command "cargo install texlab" "Installing Texlab"
 run_command "npm install -g typescript typescript-language-server svelte-language-server @tailwindcss/language-server" "Installing npm packages for language servers"
-run_command "rm -rf ./LuaNeovimConfig &>/dev/null && rm -rf ./WeztermConfig &>/dev/null && rm -rf ./FishConfig &>/dev/null && rm -rf ./EwwConfig &>/dev/null && rm -rf ./RofiConfig &>/dev/null && rm -rf ./LeftWmConfig &>/dev/null" "cleaning up"
+run_command "rm -rf ./FishConfig &>/dev/null && rm -rf ./arch-bootstrap &>/dev/null" "cleaning up"
 
 echo -e "\n\033[0;32mAdam's Bootstrap completed successfully\033[0m"
 

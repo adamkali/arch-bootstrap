@@ -1,0 +1,24 @@
+#!/usr/bin/fish
+set -l GITCHECKPATHS ~/Repos/ ~/.config
+set -g FILESCHANGED 0
+set -g ADDITIONS 0
+set -g DELETIONS 0
+
+for path in $GITCHECKPATHS
+  for repo in (find $path -type d -name .git)
+    cd (dirname $repo)
+    set -l output (git status --short)
+    set -l changes (echo $output | awk '{print $1}')
+    set -l files_changed (echo $changes | wc -l)
+    set -l additions (echo $changes | awk '/^A/{s+=1}END{print s}')
+    set -l deletions (echo $changes | awk '/^D/{s+=1}END{print s}')
+    set -g FILESCHANGED ($FILESCHANGED + $files_changed)
+    set -g ADDITIONS ($ADDITIONS + $additions)
+    set -g DELETIONS ($DELETIONS + $deletions)
+  end
+end
+
+echo $FILESCHANGED
+echo $ADDITIONS
+echo $DELETIONS
+
