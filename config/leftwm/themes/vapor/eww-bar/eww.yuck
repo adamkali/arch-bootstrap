@@ -1,41 +1,84 @@
 ;;==========================================================================\
-;;                _____       .___            /\                             | 
-;;               /  _  \    __| _/____    ____)/  ______                     | 
-;;              /  /_\  \  / __ |\__  \  /     \ /  ___/                     | 
-;;             /    |    \/ /_/ | / __ \|  Y Y  \\___ \                      | 
-;;             \____|__  /\____ |(____  /__|_|  /____  >                     | 
-;;                     \/      \/     \/      \/     \/                      | 
-;; ____   ____                                                               | 
-;; \   \ /   /____  ______   _____________  _  _______ ___  __ ____          | 
-;;  \   Y   /\__  \ \____ \ /  _ \_  __ \ \/ \/ /\__  \\  \/ // __ \         | 
-;;   \     /  / __ \|  |_> >  <_> )  | \/\     /  / __ \\   /\  ___/         | 
-;;    \___/  (____  /   __/ \____/|__|    \/\_/  (____  /\_/  \___  >        | 
-;;                \/|__|                              \/          \/         | 
-;;       __   /\    _____________      __  __      __      /\    __          | 
-;;      / /   \ \   \_   _____/  \    /  \/  \    /  \    / /    \ \         | 
-;;     / /     \ \   |    __)_\   \/\/   /\   \/\/   /   / /      \ \        | 
-;;     \ \      \ \  |        \\        /  \        /   / /       / /        | 
-;;      \_\      \ \ /_______ / \__/\  /    \__/\  /   / /       /_/         | 
+;;                _____       .___            /\                             |
+;;               /  _  \    __| _/____    ____)/  ______                     |
+;;              /  /_\  \  / __ |\__  \  /     \ /  ___/                     |
+;;             /    |    \/ /_/ | / __ \|  Y Y  \\___ \                      |
+;;             \____|__  /\____ |(____  /__|_|  /____  >                     |
+;;                     \/      \/     \/      \/     \/                      |
+;; ____   ____                                                               |
+;; \   \ /   /____  ______   _____________  _  _______ ___  __ ____          |
+;;  \   Y   /\__  \ \____ \ /  _ \_  __ \ \/ \/ /\__  \\  \/ // __ \         |
+;;   \     /  / __ \|  |_> >  <_> )  | \/\     /  / __ \\   /\  ___/         |
+;;    \___/  (____  /   __/ \____/|__|    \/\_/  (____  /\_/  \___  >        |
+;;                \/|__|                              \/          \/         |
+;;       __   /\    _____________      __  __      __      /\    __          |
+;;      / /   \ \   \_   _____/  \    /  \/  \    /  \    / /    \ \         |
+;;     / /     \ \   |    __)_\   \/\/   /\   \/\/   /   / /      \ \        |
+;;     \ \      \ \  |        \\        /  \        /   / /       / /        |
+;;      \_\      \ \ /_______ / \__/\  /    \__/\  /   / /       /_/         |
 ;;                \/        \/       \/          \/    \/                    |
 ;;                                                                           |
 ;;==========================================================================<
 ;; author: ...........................................      adam kalinowski  |
 ;; github: ...........................................  github.com/adamkali  |
-;; email : ........................................... adamkali@outlook.com  | 
+;; email : ........................................... adamkali@outlook.com  |
 ;;__________________________________________________________________________/
 
-;; Define the bar it should have the tag names to the left, git-out-of-sync (files changed and  
+;;===========================================================================\
+;; How to use                                                                |
+;;                                                                           |
+;; If you have ever used react... yuck seems to be like that. Creating a     |
+;; widget *IS* making a component. So change as you see fit. Any formating   |
+;; should be in a ${}. All documentation is done through                     |
+;; https://elkowar.github.io/eww/eww.html                                    |
+;;                                                                           |
+;;===========================================================================/
+
+;;==========================================================\
+;;          Configure Widgets                               |
+;;==========================================================/
+
+;; make a metric (icon + info)
+(defwidget metric [icon ?font-size]
+    (box :class "metric" 
+        :orientation "v"
+        (label :class "metric-icon" 
+            :style {font-size != "" ? "font-size: ${font-size}rem;" : ""} 
+            :text icon)
+    (children)))
+
+;; define the label template
+(defwidget click-div [title value classname ?onchange]
+    (button :onclick onchange
+        (box
+            :orientation "v"
+            :class classname
+            :space-evenly true
+            (box title)
+            (box value)))
+
+;; Define the bar it should have the tag names to the left, 
+;; git-out-of-sync (files changed and  
 (defwidget bar []
     (centerbox :orientation "v"
-        (workspaces)
-        (end-widgets)))
+        (box
+            :class "holder"
+            :valign "start"
+            (workspaces))
+        (box
+            :class "holder"
+            :valign "center"
+            (time))
+        (box
+            :class "holder"
+            :valign "end"
+            (end-widgets))
+        ))
 
 (defwidget end-widgets []
-    (box 
-        :class "end-widgets" 
-        :orientation "v" 
-        :space-evenly true 
-        :valign "end" 
+    (box
+        :orientation "v"
+        :space-evenly true
         :spacing 12
         (git)
         (cpu)
@@ -57,25 +100,97 @@
                             tag.visible ? "ws-button-visible" :
                             tag.urgent ? "ws-button-urgent" :
                             tag.busy ? "ws-button-busy" : "ws-button"}
-                                :onclick "leftwm-command \"SendWorkspaceToTag 0 ${tag.index}\"
-                                    {!tag.mine && !tag.busy && !tag.visible && !tag.urgent ?  "·" : "${tag.name}"})))))
+                    :onclick "leftwm-command \"SendWorkspaceToTag 0 ${tag.index}\"
+                        {!tag.mine && !tag.busy && !tag.visible && !tag.urgent ?  "·" : "${tag.name}"})))))
 
-(defwidget git)
-(defwidget cpu)
-(defwidget ram)
-(defwidget ssd)
-(defwidget net)
+;; === git ===
+(defwidget git
+    (button 
+        :onclick "scripts/git-check-pull"
+        :class "git"
+        (box
+            :orientation "v"
+            (metric :icon "" "Repos")
 
-(deflisten wmstate 
+;; === cpu ===
+(defwidget cpu
+    (box
+        :class "cpu"
+        :orientation "v"
+        :space-evenly true
+            (metric
+                :icon
+                :font-size 0.8
+                " " "${EWW_CPU.avg}")
+            (metric
+                :icon
+                :font-size 0.8
+                "C" "${EWW_TEMPS.cpu}")))
+
+;; === ram ===
+(defwidget ram
+    (box
+        :class "ram"
+        :orientation "v"
+        :space-evenly true
+            (metric 
+                :icon "" 
+                :font-size 0.8
+                "${round(EWW_RAM.used_mem, 0)}/{round(EWW_RAM.total_mem, 0)}")))
+
+;; === ssd ===
+(defwidget ssd
+    (box
+        :class "ssd"
+        :orientation "v"
+        :space-evenly true
+        (metric
+            :icon ""
+            :font-size 0.8
+            "${round((1 - (EWW_DISK["/"].free / EWW_DISK["/"].total)) * 100, 0)}%")
+
+;; === net ===
+(defwidget net
+    (box
+        :class "net"
+        :orientation "v"
+        (metric
+            :icon ""
+            :font-size 0.8
+            "${EWW_NET.up})
+        (metric
+            :icon ""
+            :font-size 0.8
+            "${EWW_NET.down}")))
+
+:: === time===
+(defwidget time
+    (box 
+        :class "time"
+        :orientation "v"
+        (metric
+            :icon "" "")
+        (metric 
+            :icon ""
+            :font-size 
+            "${hour}:${minute}")))
+
+(deflisten wmstate
            :initial '{"workspaces":[{"layout":"","tags":[{"name":"","index":0,"mine":false,"busy":false,"visible":false,"urgent":false}]}]}'
            "leftwm state")
 
+;;==========================================================\
+;;          Make Listeners                                  |
+;;==========================================================/
+(defpoll git-listener :interval "30s" "scripts/git-check")
+(defpoll hour :interval "1s" "date +%H")
+(defpoll minute :interval "1s" "date +%M")
 
 ;;==========================================================\
 ;;          Make a vertical bar                              |
 ;;==========================================================/
 (defwindow bar
-    :geometry (geometry 
+    :geometry (geometry
         :x "0"
         :y "12"
         :height "100%"

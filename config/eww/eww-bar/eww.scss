@@ -1,0 +1,133 @@
+$bgd: hsl(250, 80, 8);
+$c11: hsl(250, 100, 20);
+$c12: hsl(250, 100, 30);
+$c13: hsl(250, 100, 50);
+$c14: hsl(250, 100, 80);
+$c21: hsl(300, 100, 20);
+$c22: hsl(300, 100, 40);
+$c23: hsl(300, 100, 60);
+$c24: hsl(300, 100, 80);
+$c31: hsl(50, 100, 40);
+$c32: hsl(50, 100, 50);
+$c33: hsl(50, 100, 70);
+$c34: hsl(50, 100, 90);
+$c41: hsl(275, 90, 20);
+$c42: hsl(275, 90, 40);
+$c43: hsl(275, 90, 60);
+$c44: hsl(275, 90, 80);
+$c51: hsl(180, 100, 25);
+$c52: hsl(180, 100, 40);
+$c53: hsl(180, 100, 60);
+$c54: hsl(180, 100, 90);
+
+* {
+    all: unset;
+}
+
+window {
+    background-color: transparent;
+    color: $c33;
+    font-size: 16px;
+
+    & > * {
+        margin: 4px;
+    }
+}
+
+.holder {
+  box-shadow: 0px 0px 15px 10px $c53;
+}
+
+.workspaces {
+    border-radius: 12px;
+    margin: 16px 2px;
+    padding: 8px 2px;
+    background-color: $bgd;
+    flex: 1;
+    flex-dirextion: col;
+    space-evenly: true;  
+    button {
+        justify-content: center;
+        border-radius: 12px;
+        margin: 8px 2px;
+        padding: 8px 2px;
+        background-color: $c11;
+        color: $c53;
+        &.inactive {
+            background-color: $c14;
+            color: $c22;
+            font-size: 0.6rem;
+        }
+        &.active {
+            background-color: $c21;
+            color: $c32;
+        }
+        &.occupied {
+            background-color: $c24;
+            color: $c41;
+            font-size: 1.1rem;
+        }
+        &.empty {
+            background-color: $bgd;
+            color: $c54;
+            font-size: 0.8rem;
+        }
+    }
+}
+
+.time {
+    margin: 8px 2px;
+    background-color: $bgd;
+    border-radius: 12px;
+    font-weight: bold;
+    padding: 16px 0px;
+    color: $c13;
+}
+
+.git {
+    margin: 8px 2px;
+    border-radius: 12px;
+    font-weight: bold;
+    padding: 16px 1px;
+    background-color: $c31;
+    color: $c13;
+}
+
+.cpu {
+    margin: 8px 2px;
+    border-radius: 12px;
+    font-weight: bold;
+    padding: 16px 1px;
+    background-color: $c12;
+    color: $c23;
+}
+
+.ram {
+    margin: 8px 2px;
+    border-radius: 12px;
+    font-weight: bold;
+    padding: 16px 1px;
+    background-color: $c41;
+    color: $c53;
+}
+
+.ssd {
+    margin: 8px 2px;
+    border-radius: 12px;
+    font-weight: bold;
+    padding: 16px 1px;
+    background-color: $c51;
+    color: $c34;
+}
+
+.net {
+    margin: 8px 2px;
+    border-radius: 12px;
+    font-weight: bold;
+    padding: 16px 1px;
+    background-color: $c21;
+    color: $c44;
+}
+
+#panel{
+}
