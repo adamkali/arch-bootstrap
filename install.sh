@@ -37,7 +37,6 @@ run_command "cp ~/arch-bootstrap/config/ ~/.config/" "Creating .config directory
 run_command "git clone --depth 1 https://github.com/adamkali/FishConfig.git &>/dev/null && cp ./FishConfig/config.fish ~/.config/fish" "Cloning FishConfig"
 run_command "pip install pyright" "Installing pyright"
 run_command "go install golang.org/x/tools/gopls@latest" "Installing golang-lsp"
-run_command "rustup component add rust-analyzer" "Installing rust-analyzer"
 run_command "cargo install texlab" "Installing Texlab"
 run_command "npm install -g typescript typescript-language-server svelte-language-server @tailwindcss/language-server" "Installing npm packages for language servers"
 run_command "rm -rf ./FishConfig &>/dev/null && rm -rf ./arch-bootstrap &>/dev/null" "cleaning up"
