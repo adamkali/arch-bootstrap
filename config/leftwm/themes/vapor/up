@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 export SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 
@@ -30,7 +30,7 @@ leftwm-command "LoadTheme $SCRIPTPATH/theme.ron"
 
 # Set background
 if [ -x "$(command -v feh)" ]; then
-    feh --bg-scale $SCRIPTPATH/wallpaper.jpg
+    feh --bg-scale ~/.config/wall.jpg
 fi
 
 #open eww 'bar' windows
