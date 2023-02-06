@@ -4,11 +4,11 @@
 #
 # Executed by startx (run your window manager from here)
 
-if [ -d /etc/X11/xinit/xinitrc.d ]; then
-  for f in /etc/X11/xinit/xinitrc.d/*; do
-    [ -x "$f" ] && . "$f"
-  done
-  unset f
-fi
+xmodmap ~/.config/swap_esc &
 
-exec leftwm
+if [[ $(xrandr | awk '/Virtual-1/ {print $2}') == "connected" ]]; then 
+    xrandr --output Virtual-1 --mode 1920x1080 
+    exec leftwm
+else
+    exec leftwm 
+fi
