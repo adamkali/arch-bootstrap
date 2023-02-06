@@ -29,13 +29,13 @@ function run_command() {
   current_step=$((current_step + 1))
 }
 
-run_command "pacman -S --needed git base-devel &>/dev/null && git clone https://aur.archlinux.org/yay.git &>/dev/null && cd yay && makepkg -si &>/dev/null" "Installing YAY"
+run_command "sudo pacman -Syyuu --noconfirm && sudo pacman -S --needed git base-devel &>/dev/null && git clone https://aur.archlinux.org/yay.git &>/dev/null && cd yay && makepkg -si &>/dev/null" "Installing YAY"
 run_command "yay -S leftwm wezterm eww neofetch rofi ttf-joypixels picom-ibhagwan-git leftwm-theme-git" "Installing AUR Package ttf-joypixels"
 run_command "curl -LJO https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/VictorMono.zip &> /dev/null && unzip VictorMono.zip -d ~/.local/share/fonts &> /dev/null && fc-cache -f" "Installing VictorMono"
 run_command "git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim" "Cloning Packer"
 run_command "cp ~/arch-bootstrap/config/ ~/.config/" "Creating .config directory"
 run_command "git clone --depth 1 https://github.com/adamkali/FishConfig.git &>/dev/null && cp ./FishConfig/config.fish ~/.config/fish" "Cloning FishConfig"
-run_command "leftwm-theme apply vapor"
+run_command "leftwm-theme apply vapor" "Install theme"
 run_command "pip install pyright" "Installing pyright"
 run_command "go install golang.org/x/tools/gopls@latest" "Installing golang-lsp"
 run_command "cargo install texlab" "Installing Texlab"
